@@ -1,5 +1,4 @@
 import { motion } from "motion/react";
-import { ChevronDown } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 
 export function HeroSection() {
@@ -66,14 +65,6 @@ export function HeroSection() {
           Sistema profesional para clubes hípicos y centros ecuestres.
         </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.2 }}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2"
-        >
-          <ChevronDown className="w-8 h-8 text-blue-400 animate-bounce" />
-        </motion.div>
       </div>
     </section>
   );
