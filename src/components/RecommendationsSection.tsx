@@ -141,17 +141,7 @@ export function RecommendationsSection() {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="mt-16 text-center"
         >
-          <div className="max-w-4xl mx-auto p-10 rounded-3xl bg-gradient-to-br from-blue-600/10 to-purple-600/10 border border-blue-500/20">
-            <Shield className="w-12 h-12 text-blue-400 mx-auto mb-4" />
-            <h3 className="text-2xl font-semibold text-white mb-4">
-              Implementación estratégica
-            </h3>
-            <p className="text-lg text-slate-300 leading-relaxed font-light">
-              La implementación exitosa de estas recomendaciones fortalecerá la sostenibilidad del sistema, 
-              mejorará la seguridad y eficiencia operativa, y garantizará una experiencia óptima para usuarios 
-              y personal del Country Club Cochabamba.
-            </p>
-          </div>
+         
         </motion.div>
       </div>
     </section>

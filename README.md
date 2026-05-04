@@ -1,11 +1,9 @@
+# Country Club Cochabamba
 
-  # Modern Dark Mode Landing Page
+Sistema ERP de Planificación de Recursos Empresariales para la Gestión y Vigilancia de Equinos con Inteligencia Artificial.
 
-  This is a code bundle for Modern Dark Mode Landing Page. The original project is available at https://www.figma.com/design/I2ctg9PVvEkWmHefiGfYsi/Modern-Dark-Mode-Landing-Page.
+## Running the code
 
-  ## Running the code
+Run `npm i` to install the dependencies.
 
-  Run `npm i` to install the dependencies.
-
-  Run `npm run dev` to start the development server.
-  
+Run `npm run dev` to start the development server.

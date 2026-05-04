@@ -437,35 +437,7 @@ export function TechnologiesSection() {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="mt-20 grid grid-cols-1 md:grid-cols-4 gap-6"
         >
-          {[
-            { label: "Tecnologías", value: "15+", icon: Code2 },
-            { label: "Frameworks", value: "1", icon: Layers },
-            { label: "Plataformas", value: "2", icon: Cloud },
-            { label: "Control de Versiones", value: "2", icon: GitBranch }
-          ].map((stat, index) => {
-            const StatIcon = stat.icon;
-            
-            return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-                whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.6 + index * 0.1, type: "spring" }}
-                className="relative p-6 rounded-2xl bg-gradient-to-br from-blue-600/10 to-purple-600/10 border border-blue-500/20 text-center group hover:scale-105 transition-transform duration-300"
-              >
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-600/0 to-blue-600/0 group-hover:from-blue-600/10 group-hover:to-transparent transition-all duration-300" />
-                
-                <div className="relative z-10">
-                  <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-blue-600/20 flex items-center justify-center">
-                    <StatIcon className="w-6 h-6 text-blue-400" />
-                  </div>
-                  <p className="text-sm text-slate-400 mb-1">{stat.label}</p>
-                  <p className="text-3xl font-semibold text-white">{stat.value}</p>
-                </div>
-              </motion.div>
-            );
-          })}
+         
         </motion.div>
       </div>
     </section>
