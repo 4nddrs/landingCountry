@@ -49,9 +49,9 @@ export function RecommendationsSection() {
           </p>
         </motion.div>
 
-        <div className="space-y-8">
+        <div className="space-y-0">
           {/* First row - 3 cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {recommendations.slice(0, 3).map((recommendation, index) => {
               const positions = [
                 { x: -60, y: -30, rotate: -5 },
@@ -91,8 +91,10 @@ export function RecommendationsSection() {
             })}
           </div>
 
+          <div className="h-16 md:h-28" />
+
           {/* Second row - 2 cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto pt-0 md:pt-4">
             {recommendations.slice(3, 5).map((recommendation, index) => {
               const actualIndex = index + 3;
               const positions = [

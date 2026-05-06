@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { HeroSection } from "./components/HeroSection";
 import { TeamSection } from "./components/TeamSection";
 import { ProblemSection } from "./components/ProblemSection";
@@ -21,10 +21,19 @@ import { RecommendationsSection } from "./components/RecommendationsSection";
 import { Footer } from "./components/Footer";
 
 export default function App() {
+  const [testingUnlocked, setTestingUnlocked] = useState(false);
+  const testingSectionRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     // Force dark mode
     document.documentElement.classList.add('dark');
   }, []);
+
+  useEffect(() => {
+    if (!testingUnlocked) return;
+
+    testingSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [testingUnlocked]);
 
   return (
     <>
@@ -71,9 +80,11 @@ export default function App() {
         <div className="snap-start snap-always min-h-screen">
           <MotionCaptureSection />
         </div>
-        <div className="snap-start snap-always min-h-screen">
-          <TestingSection />
-        </div>
+        {testingUnlocked && (
+          <div ref={testingSectionRef} className="snap-start snap-always min-h-screen">
+            <TestingSection />
+          </div>
+        )}
         <div className="snap-start snap-always min-h-screen">
           <CostsSection />
         </div>
@@ -87,7 +98,10 @@ export default function App() {
           <RecommendationsSection />
         </div>
         <div className="snap-start snap-always min-h-screen">
-          <Footer />
+          <Footer
+            testingUnlocked={testingUnlocked}
+            onUnlockTesting={() => setTestingUnlocked(true)}
+          />
         </div>
       </div>
     </>

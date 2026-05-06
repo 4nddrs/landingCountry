@@ -4,6 +4,13 @@ import { useState } from "react";
 
 const objectives = {
   general: "Desarrollar un prototipo funcional de un sistema ERP para la gestión y vigilancia de equinos en el Country Club Cochabamba, integrando módulos administrativos y un componente de monitoreo inteligente por visión por computadora, basado en un diagnóstico operativo y validado mediante pruebas que demuestren mejoras en eficiencia, seguridad y bienestar animal.",
+  previewSpecific: [
+    "Realizar un diagnóstico operativo y técnico de la sección hípica para identificar requerimientos, flujos de trabajo, problemas críticos y criterios de evaluación del sistema.",
+    "Definir los requisitos funcionales, no funcionales y criterios de aceptación, incluyendo KPIs y métricas que guíen el diseño, implementación y validación del ERP.",
+    "Desarrollar el módulo de Gestión de Caballos, para administrar datos, historial médico y eventos, garantizando integridad y trazabilidad.",
+    "Desarrollar el módulo de Monitoreo Inteligente, integrando cámaras y visión por computadora para detectar comportamientos y generar alertas automáticas.",
+    "Ejecutar pruebas piloto y validar el sistema, ajustando módulos según criterios de aceptación y retroalimentación del personal.",
+  ],
   specific: [
     "Realizar un diagnóstico operativo y técnico de la sección hípica para identificar requerimientos, flujos de trabajo, problemas críticos y criterios de evaluación del sistema.",
     "Definir los requisitos funcionales, no funcionales y criterios de aceptación, incluyendo KPIs y métricas que guíen el diseño, implementación y validación del ERP.",
@@ -17,19 +24,32 @@ const objectives = {
     "Desarrollar el módulo de Mantenimiento de Establos e Instalaciones, para registrar y planificar mantenimiento preventivo y correctivo.",
     "Desarrollar el módulo de Reportes y Dashboard, consolidando KPIs operativos para apoyar la toma de decisiones.",
     "Ejecutar pruebas piloto y validar el sistema, ajustando módulos según criterios de aceptación y retroalimentación del personal.",
-    "Documentar y transferir la solución, entregando documentación técnica, manuales y un plan de implementación escalable."
+    "Documentar y transferir la solución, entregando documentación técnica, manuales y un plan de implementación escalable.",
   ]
 };
 
 export function ObjectivesSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showFullObjectives, setShowFullObjectives] = useState(false);
+
+  const activeObjectives = showFullObjectives ? objectives.specific : objectives.previewSpecific;
 
   const nextObjective = () => {
-    setCurrentIndex((prev) => (prev + 1) % objectives.specific.length);
+    setCurrentIndex((prev) => (prev + 1) % activeObjectives.length);
   };
 
   const prevObjective = () => {
-    setCurrentIndex((prev) => (prev - 1 + objectives.specific.length) % objectives.specific.length);
+    setCurrentIndex((prev) => (prev - 1 + activeObjectives.length) % activeObjectives.length);
+  };
+
+  const toggleObjectives = () => {
+    if (showFullObjectives) {
+      setShowFullObjectives(false);
+      setCurrentIndex((prev) => Math.min(prev, objectives.previewSpecific.length - 1));
+      return;
+    }
+
+    setShowFullObjectives(true);
   };
 
   return (
@@ -93,8 +113,11 @@ export function ObjectivesSection() {
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.3, type: "spring", stiffness: 100 }}
-              className="p-10 rounded-3xl bg-gradient-to-br from-[#1a2333] to-[#0f1629] border border-blue-500/10"
+              transition={{ duration: 0.15, type: "spring", stiffness: 100 }}
+              onClick={toggleObjectives}
+              role="button"
+              tabIndex={0}
+              className="p-10 rounded-3xl bg-gradient-to-br from-[#1a2333] to-[#0f1629] border border-blue-500/10 cursor-pointer"
             >
               <div className="flex items-start gap-4 mb-4">
                 <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-blue-600/20 flex items-center justify-center">
@@ -102,9 +125,16 @@ export function ObjectivesSection() {
                     {String(currentIndex + 1).padStart(2, '0')}
                   </span>
                 </div>
-                <p className="text-slate-300 leading-relaxed font-light text-lg">
-                  {objectives.specific[currentIndex]}
-                </p>
+                <div className="flex-1">
+                  <p className="text-slate-300 leading-relaxed font-light text-lg">
+                    {activeObjectives[currentIndex]}
+                  </p>
+                  {!showFullObjectives && (
+                    <p className="mt-3 text-sm text-slate-400">
+                    
+                    </p>
+                  )}
+                </div>
               </div>
             </motion.div>
           </AnimatePresence>
@@ -121,7 +151,7 @@ export function ObjectivesSection() {
             
             {/* Indicators */}
             <div className="flex gap-2">
-              {objectives.specific.map((_, index) => (
+              {activeObjectives.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentIndex(index)}
@@ -147,7 +177,7 @@ export function ObjectivesSection() {
           {/* Counter */}
           <div className="text-center mt-6">
             <span className="text-slate-400 text-sm">
-              {currentIndex + 1} de {objectives.specific.length}
+              {currentIndex + 1} de {activeObjectives.length}
             </span>
           </div>
         </div>

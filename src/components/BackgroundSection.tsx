@@ -5,17 +5,17 @@ const backgrounds = [
   {
     icon: History,
     title: "Contexto histórico",
-    description: "Los clubes hípicos tradicionalmente han operado con sistemas manuales de gestión, limitando su capacidad de crecimiento y control eficiente de sus recursos."
+    description: "La gestión manual tradicional de los clubes hípicos limita su crecimiento y el control eficiente de sus recursos."
   },
   {
     icon: BookOpen,
     title: "Necesidad identificada",
-    description: "La transformación digital en el sector ecuestre se ha convertido en una necesidad prioritaria para mejorar la gestión, seguridad y bienestar de los equinos."
+    description: "La transformación digital es ya una prioridad para optimizar la gestión, seguridad y bienestar equino."
   },
   {
     icon: FileText,
     title: "Estudios previos",
-    description: "Investigaciones en gestión empresarial ecuestre demuestran que la implementación de sistemas ERP especializados mejora significativamente la eficiencia operativa y reduce costos."
+    description: "Los sistemas ERP especializados aumentan la eficiencia operativa y reducen costos en el sector ecuestre."
   }
 ];
 

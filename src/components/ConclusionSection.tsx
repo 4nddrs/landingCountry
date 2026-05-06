@@ -5,6 +5,14 @@ import { useState } from "react";
 const conclusions = {
   general: "El sistema ERP desarrollado cumple plenamente con el objetivo general del proyecto, integrando de manera coherente todos los módulos propuestos y mejorando la gestión operativa, la organización interna y la disponibilidad de información precisa para la toma de decisiones en la sección hípica. La solución final demuestra eficiencia, estabilidad y capacidad de escalamiento, validada mediante pruebas piloto y retroalimentación del personal.",
 
+  previewSpecific: [
+    "Se realizó un diagnóstico operativo y técnico completo mediante entrevistas, encuestas, observación y revisión documental, identificando con claridad los requerimientos funcionales, flujos de trabajo y problemas críticos que el ERP debía resolver.",
+    "Se definieron los requisitos funcionales, no funcionales, criterios de aceptación, KPIs y métricas que guiaron adecuadamente el diseño, desarrollo y validación de cada módulo del sistema.",
+    "Se desarrolló el módulo de Gestión de Caballos, permitiendo registrar y administrar fichas, historiales y eventos, asegurando integridad, trazabilidad y disponibilidad estructurada de la información.",
+    "Se implementó el módulo de Salud y Nutrición, gestionando vacunas, tratamientos, dietas y alertas, y su funcionamiento fue validado en conjunto con el personal veterinario.",
+    "Se desarrolló el módulo de Monitoreo Inteligente con integración de cámaras y modelos de visión por computadora capaces de detectar comportamientos anómalos y generar alertas automáticas.",
+  ],
+
   specific: [
     "Se realizó un diagnóstico operativo y técnico completo mediante entrevistas, encuestas, observación y revisión documental, identificando con claridad los requerimientos funcionales, flujos de trabajo y problemas críticos que el ERP debía resolver.",
     "Se definieron los requisitos funcionales, no funcionales, criterios de aceptación, KPIs y métricas que guiaron adecuadamente el diseño, desarrollo y validación de cada módulo del sistema.",
@@ -18,22 +26,36 @@ const conclusions = {
     "Se implementó el módulo de Mantenimiento de Establos e Instalaciones, permitiendo programar mantenimiento preventivo y correctivo, validando su efectividad durante el periodo piloto.",
     "Se desarrolló el módulo de Reportes, Análisis de Datos y Dashboard, consolidando KPIs operativos y facilitando la toma de decisiones basada en datos reales.",
     "Se ejecutaron pruebas piloto en condiciones reales, recogiendo retroalimentación del personal y realizando los ajustes necesarios para asegurar estabilidad, usabilidad y utilidad del sistema.",
-    "Se elaboró documentación técnica, manuales de usuario y un plan de implementación por fases, garantizando la transferencia de conocimiento y la sostenibilidad futura del ERP."
+    "Se elaboró documentación técnica, manuales de usuario y un plan de implementación por fases, garantizando la transferencia de conocimiento y la sostenibilidad futura del ERP.",
   ]
 };
 
 export function ConclusionSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showFullConclusions, setShowFullConclusions] = useState(false);
+
+  const activeConclusions = showFullConclusions ? conclusions.specific : conclusions.previewSpecific;
 
   const nextConclusion = () => {
-    setCurrentIndex((prev) => (prev + 1) % conclusions.specific.length);
+    setCurrentIndex((prev) => (prev + 1) % activeConclusions.length);
   };
 
   const prevConclusion = () => {
-    setCurrentIndex((prev) => (prev - 1 + conclusions.specific.length) % conclusions.specific.length);
+    setCurrentIndex((prev) => (prev - 1 + activeConclusions.length) % activeConclusions.length);
   };
+
+  const toggleConclusions = () => {
+    if (showFullConclusions) {
+      setShowFullConclusions(false);
+      setCurrentIndex((prev) => Math.min(prev, conclusions.previewSpecific.length - 1));
+      return;
+    }
+
+    setShowFullConclusions(true);
+  };
+
   return (
-    <section className="min-h-screen flex items-center justify-center py-20 px-6 bg-gradient-to-b from-[#0f1629] to-[#1a2333]">
+    <section className="min-h-screen flex items-center justify-center py-20 px-6 bg-gradient-to-b from-[#0a0e1a] to-[#0f1629]">
       <div className="max-w-6xl mx-auto w-full">
         <motion.div
           initial={{ opacity: 0, x: -100 }}
@@ -93,40 +115,52 @@ export function ConclusionSection() {
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.3, type: "spring", stiffness: 100 }}
+              transition={{ duration: 0.15, type: "spring", stiffness: 100 }}
+              onClick={toggleConclusions}
+              role="button"
+              tabIndex={0}
               className="p-10 rounded-3xl bg-gradient-to-br from-[#1a2333] to-[#0f1629] border border-blue-500/10"
             >
               <div className="flex items-start gap-4 mb-4">
                 <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-blue-600/20 flex items-center justify-center">
-                  <span className="text-blue-400 font-bold">{currentIndex + 1}</span>
+                  <span className="text-blue-400 font-semibold">
+                    {String(currentIndex + 1).padStart(2, '0')}
+                  </span>
                 </div>
-                <p className="text-slate-300 leading-relaxed font-light text-lg">
-                  {conclusions.specific[currentIndex]}
-                </p>
+                <div className="flex-1">
+                  <p className="text-slate-300 leading-relaxed font-light text-lg">
+                    {activeConclusions[currentIndex]}
+                  </p>
+                  {!showFullConclusions && (
+                    <p className="mt-3 text-sm text-slate-400">
+                 
+                    </p>
+                  )}
+                </div>
               </div>
             </motion.div>
           </AnimatePresence>
 
-          {/* Minimalist Navigation Controls - Centered */}
-          <div className="flex justify-center items-center gap-6 mt-8">
+          {/* Navigation Buttons */}
+          <div className="flex items-center justify-center gap-4 mt-8">
             <button
               onClick={prevConclusion}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-transparent border border-blue-500/30 hover:border-blue-500/60 hover:bg-blue-500/10 transition-all duration-300"
+              className="w-12 h-12 rounded-full bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/20 hover:border-blue-500/40 flex items-center justify-center transition-all duration-300 group"
               aria-label="Conclusión anterior"
             >
-              <ChevronLeft className="w-5 h-5 text-blue-400" />
+              <ChevronLeft className="w-6 h-6 text-blue-400 group-hover:text-blue-300" />
             </button>
 
             {/* Indicators */}
             <div className="flex gap-2">
-              {conclusions.specific.map((_, index) => (
+              {activeConclusions.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentIndex(index)}
-                  className={`transition-all duration-300 rounded-full ${
+                  className={`h-2 rounded-full transition-all duration-300 ${
                     currentIndex === index
-                      ? "w-8 h-2 bg-blue-500"
-                      : "w-2 h-2 bg-blue-500/30 hover:bg-blue-500/50"
+                      ? 'w-8 bg-blue-500'
+                      : 'w-2 bg-blue-500/30 hover:bg-blue-500/50'
                   }`}
                   aria-label={`Ir a conclusión ${index + 1}`}
                 />
@@ -135,11 +169,18 @@ export function ConclusionSection() {
 
             <button
               onClick={nextConclusion}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-transparent border border-blue-500/30 hover:border-blue-500/60 hover:bg-blue-500/10 transition-all duration-300"
+              className="w-12 h-12 rounded-full bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/20 hover:border-blue-500/40 flex items-center justify-center transition-all duration-300 group"
               aria-label="Conclusión siguiente"
             >
-              <ChevronRight className="w-5 h-5 text-blue-400" />
+              <ChevronRight className="w-6 h-6 text-blue-400 group-hover:text-blue-300" />
             </button>
+          </div>
+
+          {/* Counter */}
+          <div className="text-center mt-6">
+            <span className="text-slate-400 text-sm">
+              {currentIndex + 1} de {activeConclusions.length}
+            </span>
           </div>
         </div>
       </div>

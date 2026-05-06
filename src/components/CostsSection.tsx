@@ -14,7 +14,7 @@ const costs = [
 const maintenanceCosts = [
   { licencia: "Supabase Pro", descripcion: "Backend/API + Postgres", costoUnitario: "$25", periodo: "mensual" },
   { licencia: "Render Professional", descripcion: "Hosting web/app", costoUnitario: "$25", periodo: "mensual" },
-  { licencia: "Vercel", descripcion: "Hosting frontend", costoUnitario: "$20", periodo: "mensual" },
+  { licencia: "Hostinger", descripcion: "Hosting frontend", costoUnitario: "$20", periodo: "mensual" },
   { licencia: "GitHub/GitLab", descripcion: "Repositorios privados", costoUnitario: "0 (opción Free)", periodo: "---" },
   { licencia: "TOTAL:", descripcion: "", costoUnitario: "≈$44 + usage", periodo: "mensual", isTotal: true }
 ];

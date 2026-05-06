@@ -5,53 +5,30 @@ import { useState } from "react";
 const phases = [
   {
     icon: Search,
-    title: "Enfoque de investigación",
+    title: "Estrategia de Investigación",
     description:
-      "Enfoque aplicado y mixto que combina encuestas y entrevistas para comprender el funcionamiento real de la hípica."
-  },
-  {
-    icon: FileText,
-    title: "Tipo de investigación",
-    description:
-      "Investigación descriptiva orientada a documentar procesos reales sin manipular variables."
+      "Enfoque aplicado y mixto de tipo descriptivo. Se orienta a documentar procesos reales sin manipular variables para comprender el funcionamiento de la hípica."
   },
   {
     icon: ClipboardList,
-    title: "Métodos teóricos y empíricos",
+    title: "Recolección y Análisis",
     description:
-      "Revisión documental, observación directa, entrevistas, encuestas y validación del prototipo para obtener un diagnóstico integral."
-  },
-  {
-    icon: BarChart,
-    title: "Técnicas cuantitativas y cualitativas",
-    description:
-      "Uso de encuestas analizadas con estadística descriptiva y análisis temático para entrevistas y observaciones, complementado con triangulación."
+      "Combinación de métodos teóricos y empíricos (encuestas, entrevistas y observación) analizados mediante estadística descriptiva y triangulación de datos."
   },
   {
     icon: Users,
-    title: "Población y muestra",
+    title: "Población y Fuentes",
     description:
-      "Personal operativo y documentos institucionales seleccionados mediante muestreo no probabilístico por conveniencia e intención."
+      "Muestreo no probabilístico del personal operativo y revisión de documentos institucionales del Country Club, sustentado en literatura técnica especializada."
   },
   {
     icon: Layers,
-    title: "Metodología de desarrollo – RUP",
+    title: "Metodologías de Trabajo",
     description:
-      "Proceso iterativo e incremental basado en casos de uso para analizar, construir y validar el sistema."
-  },
-  {
-    icon: KanbanSquare,
-    title: "Metodología de trabajo – Kanban",
-    description:
-      "Gestión del flujo de tareas mediante un tablero Trello para priorizar y asegurar entregas continuas."
-  },
-  {
-    icon: BookOpen,
-    title: "Fuentes de información",
-    description:
-      "Fuentes primarias del Country Club y literatura técnica para contextualizar y sustentar el diseño del ERP."
+      "Desarrollo de software bajo el estándar RUP (iterativo e incremental) gestionado con metodología Kanban para asegurar un flujo de entregas continuas."
   }
 ];
+
 
 
 export function MethodologySection() {
@@ -94,11 +71,11 @@ export function MethodologySection() {
               <FlaskConical className="w-6 h-6 text-blue-400" />
             </div>
             <h3 className="text-2xl font-semibold text-white">
-              Enfoque aplicado y mixto
+              Estructura del Desarrollo
             </h3>
           </div>
           <p className="text-slate-300 leading-relaxed font-light">
-            Se combinó información cuantitativa (encuestas) y cualitativa (entrevistas y observación) para obtener una visión completa del funcionamiento real.
+            La metodología integra la investigación de campo con el ciclo de vida del desarrollo de software para transformar necesidades operativas en funcionalidades técnicas. Este proceso iterativo permite validar cada etapa del sistema con el personal del Country Club.
           </p>
         </motion.div>
 
