@@ -295,7 +295,7 @@ export function DatabaseSection() {
           {/* Bottom Description */}
           <div className="mt-8 text-center">
             <p className="text-slate-400 font-light">
-              Modelo relacional optimizado con transición entre vista completa y resumen interactivo.
+             
             </p>
           </div>
         </motion.div>
