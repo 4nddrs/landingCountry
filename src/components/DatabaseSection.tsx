@@ -1,31 +1,123 @@
 import { motion, AnimatePresence } from "motion/react";
-import { Database, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { Database, Shrink, Maximize2 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
-const databaseDiagrams = [
-  {
+const databaseAssets = {
+  complete: {
     title: "Modelo Relacional Principal",
     description: "Diagrama entidad-relación completo del sistema",
     image: "/images/base.png",
-    diagram: "/Hipica.drawio.html"
+    diagram: "/Hipica.drawio.html",
+  },
+  summary: {
+    title: "Modelo de Base de Datos Simplificado",
+    description: "Vista resumida de relaciones principales",
+    image: "/images/base1.png",
+    diagram: "/Hipica1.drawio.html",
+  },
+} as const;
+
+const fracturePieces = [
+  {
+    id: "top-left",
+    clipPath: "polygon(0 0, 44% 0, 31% 36%, 0 26%)",
+    x: -120,
+    y: -88,
+    rotate: -12,
+    delay: 0,
   },
   {
-    title: "Modelo de Base de Datos Simplificado",
-    description: "Vista detallada de relaciones simplificadas",
-    image: "/images/base1.png",
-    diagram: "/Hipica1.drawio.html"
-  }
-];
+    id: "top-mid-left",
+    clipPath: "polygon(44% 0, 74% 0, 61% 33%, 31% 36%)",
+    x: -10,
+    y: -128,
+    rotate: 8,
+    delay: 0.03,
+  },
+  {
+    id: "top-right",
+    clipPath: "polygon(74% 0, 100% 0, 100% 34%, 61% 33%)",
+    x: 128,
+    y: -98,
+    rotate: 14,
+    delay: 0.06,
+  },
+  {
+    id: "mid-left",
+    clipPath: "polygon(0 26%, 31% 36%, 28% 70%, 0 100%)",
+    x: -118,
+    y: 110,
+    rotate: -15,
+    delay: 0.06,
+  },
+  {
+    id: "center",
+    clipPath: "polygon(31% 36%, 61% 33%, 58% 70%, 28% 70%)",
+    x: 16,
+    y: 120,
+    rotate: 6,
+    delay: 0.09,
+  },
+  {
+    id: "mid-right",
+    clipPath: "polygon(61% 33%, 100% 34%, 100% 100%, 58% 70%)",
+    x: 132,
+    y: 100,
+    rotate: 16,
+    delay: 0.12,
+  },
+  {
+    id: "bottom-left",
+    clipPath: "polygon(0 100%, 28% 70%, 58% 70%, 51% 100%)",
+    x: -76,
+    y: 168,
+    rotate: -7,
+    delay: 0.14,
+  },
+  {
+    id: "bottom-right",
+    clipPath: "polygon(51% 100%, 58% 70%, 100% 100%)",
+    x: 94,
+    y: 172,
+    rotate: 10,
+    delay: 0.16,
+  },
+] as const;
 
 export function DatabaseSection() {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [viewMode, setViewMode] = useState<"complete" | "summary">("complete");
+  const [isCracking, setIsCracking] = useState(false);
+  const crackTimerRef = useRef<number | null>(null);
 
-  const nextDiagram = () => {
-    setCurrentIndex((prev) => (prev + 1) % databaseDiagrams.length);
-  };
+  useEffect(() => {
+    const completeImage = new Image();
+    completeImage.src = databaseAssets.complete.image;
 
-  const prevDiagram = () => {
-    setCurrentIndex((prev) => (prev - 1 + databaseDiagrams.length) % databaseDiagrams.length);
+    const summaryImage = new Image();
+    summaryImage.src = databaseAssets.summary.image;
+
+    return () => {
+      if (crackTimerRef.current) {
+        window.clearTimeout(crackTimerRef.current);
+      }
+    };
+  }, []);
+
+  const toggleView = () => {
+    if (isCracking) {
+      return;
+    }
+
+    if (viewMode === "complete") {
+      setViewMode("summary");
+      setIsCracking(true);
+      crackTimerRef.current = window.setTimeout(() => {
+        setIsCracking(false);
+      }, 1200);
+      return;
+    }
+
+    setViewMode("complete");
   };
 
   return (
@@ -61,84 +153,141 @@ export function DatabaseSection() {
             </div>
           </div>
 
-          {/* Carousel */}
           <div className="relative">
             <AnimatePresence mode="wait">
-              <motion.div
-                key={currentIndex}
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -100 }}
-                transition={{ duration: 0.3, type: "spring", stiffness: 100 }}
-              >
-                {/* Title */}
-                <div className="text-center mb-6">
-                  <h3 className="text-2xl font-semibold text-white mb-2">
-                    {databaseDiagrams[currentIndex].title}
-                  </h3>
-                  <p className="text-slate-400 font-light">
-                    {databaseDiagrams[currentIndex].description}
-                  </p>
-                </div>
-
-                {/* ERD Image */}
-                <button
-                  onClick={() => window.open(databaseDiagrams[currentIndex].diagram, '_blank')}
-                  className="relative aspect-[16/10] rounded-2xl bg-gradient-to-br from-[#0a0e1a] to-[#1a2333] border border-blue-500/20 overflow-hidden cursor-pointer hover:border-blue-500/40 transition-all duration-300 hover:scale-[1.01] group w-full"
+              {viewMode === "summary" ? (
+                <motion.div
+                  key="database-summary"
+                  initial={{ opacity: 0, scale: 0.985 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.99 }}
+                  transition={{ duration: 0.24, ease: "easeOut" }}
+                  className="flex flex-col gap-6"
                 >
-                  <img 
-                    src={databaseDiagrams[currentIndex].image} 
-                    alt={databaseDiagrams[currentIndex].title}
-                    className="w-full h-full object-contain p-6 transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/5 transition-colors duration-300 flex items-center justify-center">
-                    <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-sm bg-blue-600/80 px-4 py-2 rounded-lg backdrop-blur-sm">
-                      Click para abrir diagrama completo
-                    </span>
+                  <div className="text-center">
+                    <h3 className="text-2xl font-semibold text-white mb-2">
+                      {databaseAssets.summary.title}
+                    </h3>
+                    <p className="text-slate-400 font-light">
+                      {databaseAssets.summary.description}
+                    </p>
                   </div>
-                </button>
-              </motion.div>
+
+                  <img
+                    src={databaseAssets.summary.image}
+                    alt={databaseAssets.summary.title}
+                    data-lightbox-src={databaseAssets.summary.image}
+                    className="aspect-[16/10] w-full rounded-2xl border border-blue-500/20 bg-gradient-to-br from-[#0a0e1a] to-[#1a2333] object-contain p-4 md:p-6 cursor-zoom-in"
+                  />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="database-complete"
+                  initial={{ opacity: 0, scale: 0.985 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.99 }}
+                  transition={{ duration: 0.22, ease: "easeOut" }}
+                  className="flex flex-col gap-6"
+                >
+                  <div className="text-center">
+                    <h3 className="text-2xl font-semibold text-white mb-2">
+                      {databaseAssets.complete.title}
+                    </h3>
+                    <p className="text-slate-400 font-light">
+                      {databaseAssets.complete.description}
+                    </p>
+                  </div>
+
+                  <a
+                    href={databaseAssets.complete.diagram}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block"
+                    aria-label="Abrir el modelo relacional principal en una nueva pestaña"
+                  >
+                    <motion.div
+                      key="complete-view"
+                      className="relative aspect-[16/10] rounded-2xl bg-gradient-to-br from-[#0a0e1a] to-[#1a2333] border border-blue-500/20 overflow-hidden cursor-zoom-in"
+                      initial={{ opacity: 0, scale: 0.985 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.99 }}
+                      transition={{ duration: 0.22, ease: "easeOut" }}
+                    >
+                      <div
+                        className="absolute inset-0 bg-center bg-no-repeat"
+                        style={{
+                          backgroundImage: `url(${databaseAssets.complete.image})`,
+                          backgroundSize: "contain",
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-transparent to-cyan-400/0 transition-colors duration-300 hover:from-blue-500/5 hover:to-cyan-400/5" />
+                    </motion.div>
+                  </a>
+                </motion.div>
+              )}
             </AnimatePresence>
 
-            {/* Navigation Buttons */}
-            <div className="flex items-center justify-center gap-4 mt-8">
-              <button
-                onClick={prevDiagram}
-                className="w-12 h-12 rounded-full bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/20 hover:border-blue-500/40 flex items-center justify-center transition-all duration-300 group"
-                aria-label="Diagrama anterior"
-              >
-                <ChevronLeft className="w-6 h-6 text-blue-400 group-hover:text-blue-300" />
-              </button>
-              
-              {/* Indicators */}
-              <div className="flex gap-2">
-                {databaseDiagrams.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentIndex(index)}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      index === currentIndex 
-                        ? 'w-8 bg-blue-500' 
-                        : 'w-2 bg-blue-500/30 hover:bg-blue-500/50'
-                    }`}
-                    aria-label={`Ir al diagrama ${index + 1}`}
-                  />
-                ))}
-              </div>
+            <AnimatePresence>
+              {isCracking && (
+                <motion.div
+                  key="database-crack-burst"
+                  className="pointer-events-none absolute inset-0 z-10"
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.16 }}
+                >
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(217,70,239,0.12),rgba(34,211,238,0.10)_32%,transparent_68%)]" />
+                  {fracturePieces.map((piece) => (
+                    <motion.div
+                      key={piece.id}
+                      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl shadow-2xl"
+                      style={{ clipPath: piece.clipPath }}
+                      initial={{ opacity: 0, x: 0, y: 0, rotate: 0 }}
+                      animate={{
+                        opacity: [0, 1, 1, 0],
+                        x: [0, piece.x, piece.x * 1.15],
+                        y: [0, piece.y, piece.y * 1.1],
+                        rotate: [0, piece.rotate, piece.rotate * 1.08],
+                      }}
+                      transition={{
+                        duration: 1.05,
+                        delay: piece.delay,
+                        ease: "easeOut",
+                      }}
+                    >
+                      <img
+                        src={databaseAssets.complete.image}
+                        alt="Fragmento del modelo completo"
+                        className="h-[56vh] w-[72vw] max-h-[700px] max-w-[1080px] object-cover md:h-[60vh] md:w-[62vw]"
+                      />
+                    </motion.div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
 
+            <div className="flex justify-center">
               <button
-                onClick={nextDiagram}
-                className="w-12 h-12 rounded-full bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/20 hover:border-blue-500/40 flex items-center justify-center transition-all duration-300 group"
-                aria-label="Siguiente diagrama"
+                onClick={toggleView}
+                className="inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-slate-950/55 px-4 py-2 text-sm text-white shadow-lg shadow-blue-950/20 backdrop-blur-md transition-all duration-300 hover:border-cyan-300/40 hover:bg-slate-950/75"
               >
-                <ChevronRight className="w-6 h-6 text-blue-400 group-hover:text-blue-300" />
+                {viewMode === "complete" ? (
+                  <>
+                    <Shrink className="h-4 w-4 text-cyan-300" />
+                  </>
+                ) : (
+                  <>
+                    <Maximize2 className="h-4 w-4 text-cyan-300" />
+                  </>
+                )}
               </button>
             </div>
-
-            {/* Counter */}
-            <div className="text-center mt-6">
+            <div className="mt-6 text-center">
               <span className="text-slate-400 text-sm">
-                {currentIndex + 1} de {databaseDiagrams.length}
+                {viewMode === "complete"
+                  ? ""
+                  : ""}
               </span>
             </div>
           </div>
@@ -146,7 +295,7 @@ export function DatabaseSection() {
           {/* Bottom Description */}
           <div className="mt-8 text-center">
             <p className="text-slate-400 font-light">
-              Modelo relacional optimizado con índices estratégicos y relaciones normalizadas
+              Modelo relacional optimizado con transición entre vista completa y resumen interactivo.
             </p>
           </div>
         </motion.div>
